@@ -13,11 +13,31 @@
 <script type="text/javascript">
 const PAGES = {
     home: {url: '/home', template: '<h1>Welcome to the home page</h1><p>You\'re home now :)</p>'},
-    about: {url: '/about', template: '<h1>Welcome to the about page</h1><p>We are nice: <ul><li>Nice</li><li>Smart</li></ul></p>'},
+    about: {url: '/about', templateUrl: 'templates/about.html'},
+}
+
+function loadAndRenderTemplate(url) {
+    var client = new XMLHttpRequest();
+    client.open('GET', url);
+    client.onreadystatechange = function() {
+      renderTemplate(client.responseText);
+    }
+    client.send();
 }
 
 function renderTemplate(template) {
+    // TODO: add actual templating engine?
     document.getElementById('templated-section').innerHTML = template;
+}
+
+function showPage(page) {
+    if (page.template) {
+        renderTemplate(page.template);
+    } else if (page.templateUrl) {
+        loadAndRenderTemplate(page.templateUrl);
+    } else {
+        alert(`No template found for the page ${page.url}`);
+    }
 }
 
 function goToPage(pageName) {
@@ -29,7 +49,7 @@ function goToPage(pageName) {
     let newState = (history.state && history.state[0] instanceof Object) ? history.state : [];
     newState.push({page: newPage});
     history.pushState(newState, newPage.url, newPage.url);
-    renderTemplate(newPage.template);
+    showPage(newPage);
     return false; // Needed to avoid default link behavior
 }
 
