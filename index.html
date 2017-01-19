@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Trying out HTML5 url history manipulation</title>
+</head>
+<body>
+    <nav>
+        <a href="#" onclick="return goToPage('home');">Home</a>
+        <a href="#" onclick="return goToPage('about');">About</a>
+    </nav>
+    <div id="templated-section">Placeholder</div>
+
+<script type="text/javascript">
+const PAGES = {
+    home: {url: '/home', template: '<h1>Welcome to the home page</h1><p>You\'re home now :)</p>'},
+    about: {url: '/about', template: '<h1>Welcome to the about page</h1><p>We are nice: <ul><li>Nice</li><li>Smart</li></ul></p>'},
+}
+
+function renderTemplate(template) {
+    document.getElementById('templated-section').innerHTML = template;
+}
+
+function goToPage(pageName) {
+    let newPage = PAGES[pageName];
+    if (!newPage) {
+        alert('No such page');
+        return false;
+    }
+    let newState = (history.state && history.state[0] instanceof Object) ? history.state : [];
+    newState.push({page: newPage});
+    history.pushState(newState, newPage.url, newPage.url);
+    renderTemplate(newPage.template);
+    return false; // Needed to avoid default link behavior
+}
+
+window.onpopstate = function() {
+    let newState = (history.state && history.state[0] instanceof Object) ? history.state : [];
+    let previousPage = (newState.length) ? newState.pop().page : PAGES['home'];
+    history.replaceState(newState, previousPage.url, previousPage.url)
+    renderTemplate(previousPage.template);
+};
+
+goToPage('home');
+</script>
+</body>
+</html>
