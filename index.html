@@ -9,58 +9,8 @@
         <a href="#" onclick="return goToPage('about');">About</a>
     </nav>
     <div id="templated-section">Placeholder</div>
-
-<script type="text/javascript">
-const PAGES = {
-    home: {url: '/home', template: '<h1>Welcome to the home page</h1><p>You\'re home now :)</p>'},
-    about: {url: '/about', templateUrl: 'templates/about.html'},
-}
-
-function loadAndRenderTemplate(url) {
-    var client = new XMLHttpRequest();
-    client.open('GET', url);
-    client.onreadystatechange = function() {
-      renderTemplate(client.responseText);
-    }
-    client.send();
-}
-
-function renderTemplate(template) {
-    // TODO: add actual templating engine?
-    document.getElementById('templated-section').innerHTML = template;
-}
-
-function showPage(page) {
-    if (page.template) {
-        renderTemplate(page.template);
-    } else if (page.templateUrl) {
-        loadAndRenderTemplate(page.templateUrl);
-    } else {
-        alert(`No template found for the page ${page.url}`);
-    }
-}
-
-function goToPage(pageName) {
-    let newPage = PAGES[pageName];
-    if (!newPage) {
-        alert('No such page');
-        return false;
-    }
-    let newState = (history.state && history.state[0] instanceof Object) ? history.state : [];
-    newState.push({page: newPage});
-    history.pushState(newState, newPage.url, newPage.url);
-    showPage(newPage);
-    return false; // Needed to avoid default link behavior
-}
-
-window.onpopstate = function() {
-    let newState = (history.state && history.state[0] instanceof Object) ? history.state : [];
-    let previousPage = (newState.length) ? newState.pop().page : PAGES['home'];
-    history.replaceState(newState, previousPage.url, previousPage.url)
-    renderTemplate(previousPage.template);
-};
-
-goToPage('home');
-</script>
+    <script src="src/routeconfig.js"></script>
+    <script src="vendor/pageRender.js"></script>
+    <script src="src/controller.js"></script>
 </body>
 </html>
