@@ -1,0 +1,27 @@
+{
+  "name": "mini-html5-framework",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yoniLavi/mini-html5-framework.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yoniLavi/mini-html5-framework/issues"
+  },
+  "homepage": "https://github.com/yoniLavi/mini-html5-framework#readme",
+  "devDependencies": {
+    "babel-cli": "^6.23.0",
+    "babel-core": "^6.23.1",
+    "babel-preset-es2015": "^6.22.0"
+  },
+  "scripts": {
+    "start": "http-server -c-1"
+  }
+}
